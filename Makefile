@@ -1,22 +1,16 @@
-init: pull-images build composer-install generate migrate up # user storage-link
+init: pull-images build composer-install migrate up storage-link
 
 pull-images:
 	docker-compose pull
 build:
 	docker-compose build
 composer-install:
-	docker-compose run --rm php-cli composer install
-generate:
-	docker-compose run --rm php-cli php artisan key:generate
+	docker-compose exec php composer install
 migrate:
-	docker-compose run --rm php-cli php artisan migrate
-user:
-	docker-compose run --rm php-cli php artisan make:user
+	docker-compose exec php php artisan migrate
 storage-link:
-	docker-compose run --rm php-cli php artisan storage:link
-sync:
-	docker-compose run --rm php-cli php artisan sync:flavors
+	docker-compose exec php php artisan storage:link
 composer-update:
-	docker-compose run --rm php-cli composer update
+	docker-compose exec php composer update
 up:
 	docker-compose up -d
